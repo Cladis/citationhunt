@@ -1,0 +1,53 @@
+#intersection-controls .o-open {
+    /* Fighting bootstrap, which sets margin-bottom. */
+    margin: 0;
+
+    /* Make it look like a link. */
+    color: #0645AD;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+#intersection-modal-wrapper {
+    padding: 5px;
+}
+
+#intersection-card-container textarea {
+    resize: none;
+    border: 2px solid #937E7E;
+    width: 100%;
+    padding: 2px;
+}
+
+#intersection-created-link-wrapper {
+    text-align: center;
+}
+
+#intersection-card-end * {
+    /* Reset margin for <p> elements around #intersection-created-link */
+    margin: 0;
+}
+
+#intersection-created-link {
+    font-size: large;
+    border: 2px solid #937E7E;
+    margin: 1rem 0;
+    padding: 2px;
+}
+
+#intersection-buttons-container {
+    margin: 5px;
+}
+
+#import-petscan-card input {
+    margin: 10px auto;
+    display: block;
+    border: 2px solid #937E7E;
+    width: 50%;
+    padding: 3px;
+}
+
+#intersection-spinner {
+  /* Make it less likely for the text to run into the spinner */
+  height: 10px;
+}

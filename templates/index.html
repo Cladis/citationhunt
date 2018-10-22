@@ -18,6 +18,7 @@
     <link rel="stylesheet" href="static/css/snippet.css">
     <link rel="stylesheet" href="static/css/modal.css">
     <link rel="stylesheet" href="static/css/awesomplete.css">
+    <link rel="stylesheet" href="static/css/intersections.css">
 
     <script src="https://tools-static.wmflabs.org/cdnjs/ajax/libs/jquery/3.1.1/jquery.min.js"
             integrity="sha384-3ceskX3iaEnIogmQchP8opvBy3Mi7Ce34nWjpBIwVTHfGYWQS9jwHDVRnpKKHJg7"
@@ -37,14 +38,37 @@
     <script src="static/js/lang_selector.js" defer></script>
     <script src="static/js/fixed.js" defer></script>
     <script src="static/js/shortcuts.js" defer></script>
+    <script src="static/js/intersections.js" defer></script>
   </head>
   <body>
+    {% if current_intersection and strings.intersection_notice %}
+    <div id="intersection-notice">
+        <span>{{ strings.intersection_notice }}</span>
+    </div>
+    {% endif %}
     <div class="container-fluid py-2">
       <div id="controls" class="row justify-content-end align-items-center px-3 px-sm-1 py-2 py-sm-1">
+        <div id="intersection-controls" class="mx-1">
+          <label for="intersection-modal-trigger" class="o-open">Intersections</label>
+          <div class="pure-modal">
+            <input id="intersection-modal-trigger" class="checkbox" type="checkbox">
+            <div id="intersection-modal-wrapper" class="pure-modal-overlay">
+              <label for="intersection-modal-trigger" class="o-close"></label>
+              <div class="pure-modal-wrap a-center">
+                  <div id="intersection-card-container"></div>
+                  <div id="intersection-buttons-container" class="row justify-content-center">
+                      <a id="intersection-button-back" class="col-1" href="">{{ strings.back }}</a>
+                      <div class="col-1"></div> <!-- direction-independent spacing -->
+                      <a id="intersection-button-submit" class="col-1" href="">{{ strings.submit }}</a>
+                  </div>
+              </div>
+            </div>
+          </div>
+        </div>
         {% if strings.leaderboard_link_title %}
-        <div><a id="leaderboard-link" href="{{ config.lang_code }}/leaderboard.html">{{ strings.leaderboard_link_title }}</a></div>
+        <div class="mx-1"><a id="leaderboard-link" href="{{ config.lang_code }}/leaderboard.html">{{ strings.leaderboard_link_title }}</a></div>
         {% endif %}
-        <select id="lang-selector" class="mx-2">
+        <select id="lang-selector" class="mx-1">
           {% for lang_code, lang_name in config.lang_codes_to_lang_names.items() | sort %}
           <option data-lang-code="{{ lang_code }}" {% if config.lang_code == lang_code %} selected{% endif %}>{{ lang_name }}</option>
           {% endfor %}
@@ -94,13 +118,14 @@
             <input type="text" id="category-input" value = "{{ current_category.title }}" autocomplete="off" placeholder="{{ strings.category_filter_placeholder }}">
             <input type="text" id="hidden-id-input" name="id" value="{{ next_snippet_id }}" hidden>
             <input type="text" id="hidden-category-input" name="cat" value="{{ current_category.id }}" hidden>
+            <input type="text" id="hidden-intersection-input" name="inter" value="{{ current_intersection }}" hidden>
           </form>
           <noscript>
             <div id="js-disabled-category-warning">Sorry, filtering by category requires Javascript!</div>
           </noscript>
         </div>
         <div class="col-1">
-          <div id="spinner"></div>
+          <div id="category-filter-spinner" class="spinner"></div>
         </div>
       </div>
       <div id="fixed-count-container" class="info mt-3" hidden></div>
@@ -121,6 +146,47 @@
       {% for k, v in js_strings.items() | sort %}
         data-{{ k }}="{{ v }}"
       {% endfor %}
+    </div>
+
+    <div id="intersection-wizard-cards" hidden>
+      <div id="intersection-landing-card" class="intersection-card">
+        <h3>{{ strings.create_intersection }}</h3>
+        <p>{{ strings.intersection_intro }}</p>
+        <p>{{ strings.intersection_import_prompt }}</p>
+        <ul>
+          <li><a id="import-article-titles-link" href="">{{ strings.import_article_titles }}</a></li>
+          <li><a id="import-petscan-link" href="">{{ strings.import_petscan }}</a></li>
+        </ul>
+      </div>
+      <div id="import-article-titles-card" class="intersection-card">
+        <p>{{ strings.import_articles_prompt }}</p>
+        <textarea rows=5></textarea>
+      </div>
+      <div id="import-petscan-card" class="intersection-card">
+        <p>{{ strings.import_petscan_intro }}</p>
+        <p>{{ strings.import_petscan_prompt }}</p>
+        <input type="text" placeholder="{{ config.petscan_url }}?psid=3316252"></input>
+      </div>
+      <div id="progress-card" class="intersection-card">
+        <div id="intersection-spinner" class="spinner"></div>
+        <p>{{ strings.intersection_please_wait }}</p>
+        <p>{{ strings.back_to_cancel }}</p>
+      </div>
+      <div id="intersection-card-end" class="intersection-card">
+        <p id="intersection-created"></p>
+        <div id="intersection-created-link-wrapper">
+          <input id="intersection-created-link" readonly="true" type="text"/>
+        </div>
+        <p>{{ strings.intersection_end_copy_link }}</p>
+      </div>
+      <div id="intersection-card-failed" class="intersection-card">
+          <p>{{ strings.intersection_failed }}</p>
+          <p>{{ strings.try_again_hints_header }}</p>
+          <ul>
+              <li>{{ strings.article_titles_hint }}</li>
+              <li>{{ strings.petscan_hint }}</li>
+          </ul>
+      </div>
     </div>
   </body>
 </html>
