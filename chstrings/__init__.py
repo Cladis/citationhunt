@@ -104,6 +104,13 @@ def _preprocess_variables(config, strings):
                 link_start = _link_start(config.petscan_url),
                 link_end = '</a>'))
 
+    strings.setdefault('import_petscan_category_tip', '')
+    if strings['import_petscan_category_tip']:
+        strings['import_petscan_category_tip'] = flask.Markup(
+            strings['import_petscan_category_tip'].format(
+                tooltitle = strings['tooltitle'],
+                category = '<i>' + config.citation_needed_category + '</i>'))
+
     strings.setdefault('back_to_cancel', '')
     if strings['back_to_cancel'] and strings['back']:
         strings['back_to_cancel'] = flask.Markup(

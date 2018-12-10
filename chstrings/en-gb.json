@@ -18,6 +18,7 @@
 	"import_articles_prompt": "Please enter Wikipedia {em_start}article titles{em_end} to import, one per line, in the area below:",
 	"import_petscan_intro": "{em_start}PetScan{em_end} is a tool for querying Wikipedia and defining lists of articles. After a user makes a query, PetScan assigns it an ID that can be used to import the query into other tools.",
 	"import_petscan_prompt": "Please {link_start}create your query in PetScan{link_end} and paste its URL or ID below:",
+	"import_petscan_category_tip": "Tip: {tooltitle} only contains articles inside the {category} category. For better results, you can use PetScan to only retrieve articles inside that category.",
 	"intersection_failed": "Sorry, your intersection failed to be created or came up empty!",
 	"try_again_hints_header": "Please try again and keep the following tips in mind:",
 	"article_titles_hint": "When importing articles by title, double-check that the titles are correct and that you've provided one per line.",
