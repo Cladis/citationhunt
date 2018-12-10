@@ -16,7 +16,7 @@
 	"intersection_please_wait": "Please wait, your intersection is being computed. This may take a few minutes&#x2026;",
 	"back_to_cancel": "You can press {em_start}{back}{em_end} or close this dialog to cancel.",
 	"import_articles_prompt": "Please enter Wikipedia {em_start}article titles{em_end} to import, one per line, in the area below:",
-	"import_petscan_intro": "{em_start}PetScan{em_end} is a tool for querying Wikipedia and defining lists of articles. After a user makes a query, PetScan assigns it an ID that can be used to import the query into other tools.",
+	"import_petscan_intro": "{em_start}PetScan{em_end} is a tool for querying Wikipedia and defining lists of articles. PetScan assigns IDs to queries so their results can be imported into other tools.",
 	"import_petscan_prompt": "Please {link_start}create your query in PetScan{link_end} and paste its URL or ID below:",
 	"import_petscan_category_tip": "Tip: {tooltitle} only contains articles inside the {category} category. For better results, you can use PetScan to only retrieve articles inside that category.",
 	"intersection_failed": "Sorry, your intersection failed to be created or came up empty!",
