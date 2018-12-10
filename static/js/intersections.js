@@ -323,4 +323,5 @@ $(function() {
   $('#intersection-modal-trigger').change(() => {
     wizard.landAtCard('intersection-landing-card');
   });
+  $('#intersection-controls').removeAttr('hidden');
 });
