@@ -47,16 +47,20 @@ def intersect_with_page_ids(cfg, page_ids):
         cfg.intersection_expiration_days)
 
 def intersect_with_psid(cfg, psid):
+    response = None
     try:
         with log_time('querying psid ' + psid):
-            res = requests.get(
+            response = requests.get(
                 cfg.petscan_url + '?format=json&psid=' + psid,
-                timeout = cfg.petscan_timeout_s).json()
-    except requests.exceptions.Timeout:
-        res = None
-    if res is None:
+                timeout = cfg.petscan_timeout_s)
+            articles = response.json()['*'][0]['a']['*']
+    except Exception as e:
+        flask.current_app.logger.error(
+            'PetScan request failed: ' + repr(e) + ', ' + repr(response.text))
+        response = None
+    if response is None:
         return '', []
-    page_ids = [article['id'] for article in res['*'][0]['a']['*']]
+    page_ids = [article['id'] for article in articles]
     if not page_ids:
         return '', []
     return intersect_with_page_ids(cfg, page_ids)
