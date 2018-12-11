@@ -758,6 +758,12 @@ assert len(
     set.union(set(), *LANG_CODES_TO_ACCEPT_LANGUAGE.values())
 ) == sum(map(len, LANG_CODES_TO_ACCEPT_LANGUAGE.values()))
 
+def make_petscan_url(cfg):
+    language = cfg.wikipedia_domain.replace('.wikipedia.org', '')
+    return (cfg.petscan_url +
+        '?language=' + language +
+        '&category=' + cfg.citation_needed_category)
+
 def get_global_config():
     return Config(**_GLOBAL_CONFIG)
 
