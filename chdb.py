@@ -173,20 +173,23 @@ def reset_scratch_db():
 
 def copy_tables_to_scratch(table_and_select_stmt_tuples):
     cfg = config.get_localized_config()
-    db = init_scratch_db()
+    db = init_db(cfg.lang_code)
+    create_tables(db)
+
     def do_copy(cursor):
         for table, select_stmt in table_and_select_stmt_tuples:
             from_table = _make_tools_labs_dbname(
                 db, 'citationhunt', cfg.lang_code) + '.' + table
-            cursor.execute('DELETE FROM ' + table)
-            cursor.execute('INSERT INTO ' + table + ' ' + select_stmt % (
+            to_table = _make_tools_labs_dbname(
+                db, 'scratch', cfg.lang_code) + '.' + table
+            cursor.execute('DELETE FROM ' + to_table)
+            cursor.execute('INSERT INTO ' + to_table + ' ' + select_stmt % (
                 from_table))
     db.execute_with_retry(do_copy)
 
 def install_scratch_db():
     cfg = config.get_localized_config()
     db = init_db(cfg.lang_code)
-    # ensure citationhunt is populated with tables
     create_tables(db)
 
     chname = _make_tools_labs_dbname(db, 'citationhunt', cfg.lang_code)
