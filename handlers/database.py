@@ -144,7 +144,7 @@ def create_intersection(lang_code, page_ids, max_pages, expiration_days):
         SELECT page_id, title
         FROM articles WHERE page_id IN %s''', tuple(page_ids))
     if intersection is None:
-        return '', 0
+        return '', []
     page_ids = [row[0] for row in intersection][:max_pages]
     titles = [row[1] for row in intersection][:max_pages]
     inter_id = mkid('|'.join(title.lower() for title in sorted(titles)))
