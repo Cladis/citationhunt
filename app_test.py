@@ -22,12 +22,14 @@ class CitationHuntTest(unittest.TestCase):
 
         self.sid = '93b6f3cf'
         self.cat = 'b5e1a25d'
+        self.inter = 'c4a1e27d'
         self.fake_snippet_info = (
             'Some snippet', 'Some section',
             'https://en.wikipedia.org/wiki/A', 'Some title')
 
         methods_and_return_values = [
             ('query_snippet_by_category', (self.sid,)),
+            ('query_snippet_by_intersection', (self.sid,)),
             ('query_random_snippet', (self.sid,)),
             ('query_next_id_in_category', (self.sid[::-1],)),
             ('query_next_id_in_intersection', (self.sid[::-1],)),
@@ -193,6 +195,29 @@ class CitationHuntTest(unittest.TestCase):
         self.assertEquals(response.status_code, 302)
         self.assertEquals(args['id'], self.sid)
         self.assertNotIn('cat', args)
+
+    def test_no_id_valid_intersection(self):
+        response = self.app.get('/en?inter=' + self.inter)
+        args = self.get_url_args(response.location)
+
+        self.assertEquals(response.status_code, 302)
+        self.assertEquals(args['id'], self.sid)
+        self.assertEquals(args['inter'], self.inter)
+
+        # Now request the snippet, should be a 200
+        response = self.app.get(
+            '/en?id=%s&inter=%s' % (args['id'], args['inter']))
+        self.assertEquals(response.status_code, 200)
+
+    # Shouldn't really happen, just make sure we don't crash or anything.
+    def test_category_and_intersection(self):
+        response = self.app.get('/en?inter=' + self.inter + '&cat=' + self.cat)
+        args = self.get_url_args(response.location)
+
+        self.assertEquals(response.status_code, 302)
+        self.assertEquals(args['id'], self.sid)
+        self.assertEquals(args['cat'], self.cat)
+        self.assertNotIn('inter', args)
 
     def test_cache_control(self):
         response = self.app.get('/en?id=%s&cat=all' % self.sid)
