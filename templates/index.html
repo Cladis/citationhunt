@@ -48,6 +48,7 @@
     {% endif %}
     <div class="container-fluid py-2">
       <div id="controls" class="row justify-content-end align-items-center px-3 px-sm-1 py-2 py-sm-1">
+        {% if config.lang_code == 'en' %}
         <div id="intersection-controls" class="mx-1" hidden>
           <label for="intersection-modal-trigger" class="o-open">Intersections</label>
           <div class="pure-modal">
@@ -65,6 +66,7 @@
             </div>
           </div>
         </div>
+        {% endif %}
         {% if strings.leaderboard_link_title %}
         <div class="mx-1"><a id="leaderboard-link" href="{{ config.lang_code }}/leaderboard.html">{{ strings.leaderboard_link_title }}</a></div>
         {% endif %}
