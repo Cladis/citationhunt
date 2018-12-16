@@ -36,6 +36,8 @@ _GLOBAL_CONFIG = dict(
 
     petscan_timeout_s = 180,
 
+    petscan_depth = 10,
+
     # The maximum number of articles to import into an intersection.
     intersection_max_size = 4096,
 
@@ -762,6 +764,7 @@ def make_petscan_url(cfg):
     language = cfg.wikipedia_domain.replace('.wikipedia.org', '')
     return (cfg.petscan_url +
         '?language=' + language +
+        '&depth=' + str(cfg.petscan_depth) +
         '&category=' + cfg.citation_needed_category)
 
 def get_global_config():
