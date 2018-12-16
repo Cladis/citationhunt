@@ -19,8 +19,10 @@ def update_intersections():
     ])
     def update_snippets_links(cursor):
         cursor.execute('SELECT id FROM intersections')
-        database.populate_snippets_links(cursor,
-            intersection_ids = (row[0] for row in cursor))
+        intersection_ids = [row[0] for row in cursor]
+        if intersection_ids:
+            database.populate_snippets_links(cursor,
+                intersection_ids = intersection_ids)
     chdb.init_scratch_db().execute_with_retry(update_snippets_links)
     # delete empty intersections. should this surface an error to the user
     # instead?
