@@ -187,7 +187,7 @@ $(function() {
       $container.append($html);
       $html.find('#intersection-narticles').text(response.page_ids.length)
       var intersectionURL = (
-        document.location.origin + '/' + wizard.getLangCode() +
+        document.location.origin + document.location.pathname +
         '?inter=' + response['id']);
       var l = $html.find('#intersection-created-link')
       l.val(intersectionURL);
